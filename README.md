@@ -1,4 +1,14 @@
 build-source
 ============
+<br/>
 
-A design structure for Gulp
+A structural design pattern for working with Gulp.
+
+<br/>
+___
+
+API
+===
+
+Soon.
+

@@ -1,0 +1,34 @@
+{
+  "name": "build-source",
+  "version": "0.1.0",
+  "description": "A design structure for Gulp",
+  "main": "build-source.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phazelift/build-source.js"
+  },
+  "keywords": [
+    "gulp",
+    "build",
+    "source",
+    "plugin",
+    "structure",
+    "tool"
+  ],
+  "author": "Dennis Raymondo <phazelift@gmail.com> (https://github.com/phazelift/)",
+  "license": "GPL-3",
+  "bugs": {
+    "url": "https://github.com/phazelift/build-source.js/issues"
+  },
+  "homepage": "https://github.com/phazelift/build-source.js",
+  "dependencies": {
+    "gulp": "^3.8.10",
+    "words.js": "^0.3.82"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.8.0"
+  }
+}
