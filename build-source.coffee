@@ -15,45 +15,20 @@
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>
 
-
-#	object structure:
-#
-#	source <function>
-#		root <string>
-#		watchable <function>
-#		watch	<function>
-#			[ path ] <gulp.watch>
-#			tasks <object>
-#				[ src ] <array>
-#			addTask
-#		watchAll <function>
-#
-#
-#	build	<function>
-#		root <string>
-#		task <object>
-#			[ id ] <build>
-#				src <array>/<string>
-#				target <array>/<string>
-#				plugs <function>
-#		tasks <function>
-#			ignore <array>
-#			ignored <function>
-#			all <object>
-#			allIds <array>
-#			add <function>
-#		 	run <function>
-
 "use strict"
 
 gulp		= require 'gulp'
 _			= require 'words.js'
+Strings	= _.Strings
 
 mapRoot= ( paths, root ) ->
 
 	if '' isnt _.forceString root
 		paths= _.flexArgs paths
-		paths= paths.map ( path ) -> root+ path
+		paths= paths.map ( path ) ->
+			if Strings.startsWith path, source.noRoot
+				return Strings.removePos path, 1
+			return root+ path
 
 	return paths
 
@@ -63,26 +38,30 @@ mapRoot= ( paths, root ) ->
 
 source= ( src ) -> gulp.src mapRoot(src, source.root) if src
 
-source.root	= 'source/'
+source.root		= 'source/'
+source.noRoot	= '^'
 
 source.watchable= ( id ) -> not (( build.tasks.ignored id ) or ( id is 'watch' ))
 
+source.watcher= {}
 source.watch= ( tasks ) ->
 
 	for path, id of tasks then if source.watchable id
-		source.watch[ path ]= gulp.watch source.root+ path, id
+		source.watcher[ path ]= gulp.watch mapRoot(path, source.root), id
 
+source.watchAll= ->
 
-source.watch.tasks= {}
-source.watch.addTask= ( id, src ) ->
+	tasks= {}
+	for id, obj of build.task
 
-	if source.watch.tasks.hasOwnProperty src
-		source.watch.tasks[ src ].push id
-	else
-		source.watch.tasks[ src ]= [ id ] if src
+		continue if not obj.src
 
+		if tasks[ obj.src ]?
+			tasks[ obj.src ].push id
+		else
+			tasks[ obj.src ]= [ id ]
 
-source.watchAll= -> source.watch source.watch.tasks
+	source.watch tasks
 
 #
 #----------------------------------- build ------------------------------------------
@@ -128,18 +107,20 @@ build.tasks= ( tasks ) ->
 			build.task[ id ].plugs	= plugs
 
 			gulp.task id, build.task[ id ]
-			source.watch.addTask id, src
-
-		build.tasks.add id
-
 
 build.tasks.ignore	= []
 build.tasks.ignored= ( id ) -> ( id in build.tasks.ignore ) or ( id is 'default' )
 
-build.tasks.all		= []
-build.tasks.add		= ( id ) ->	build.tasks.all.push id if not build.tasks.ignored id
+build.tasks.startAll	= ->
 
-build.tasks.run		= -> gulp.start build.tasks.all
+	tasks= []
+	for id of build.task
+ 		tasks.push id if not build.tasks.ignored id
+
+ 	gulp.start tasks
+
+# make source available for older JS
+build.source= source
 
 #
 #-----------------------------------------------------------------------------------

@@ -13,6 +13,9 @@
     if ('' !== _.forceString(root)) {
       paths = _.flexArgs(paths);
       paths = paths.map(function(path) {
+        if (Strings.startsWith(path, source.noRoot)) {
+          return Strings.removePos(path, 1);
+        }
         return root + path;
       });
     }
@@ -27,9 +30,13 @@
 
   source.root = 'source/';
 
+  source.noRoot = '^';
+
   source.watchable = function(id) {
     return !((build.tasks.ignored(id)) || (id === 'watch'));
   };
+
+  source.watcher = {};
 
   source.watch = function(tasks) {
     var id, path, _results;
@@ -37,7 +44,7 @@
     for (path in tasks) {
       id = tasks[path];
       if (source.watchable(id)) {
-        _results.push(source.watch[path] = gulp.watch(source.root + path, id));
+        _results.push(source.watcher[path] = gulp.watch(mapRoot(path, source.root), id));
       } else {
         _results.push(void 0);
       }
@@ -45,20 +52,22 @@
     return _results;
   };
 
-  source.watch.tasks = {};
-
-  source.watch.addTask = function(id, src) {
-    if (source.watch.tasks.hasOwnProperty(src)) {
-      return source.watch.tasks[src].push(id);
-    } else {
-      if (src) {
-        return source.watch.tasks[src] = [id];
+  source.watchAll = function() {
+    var id, obj, tasks, _ref;
+    tasks = {};
+    _ref = build.task;
+    for (id in _ref) {
+      obj = _ref[id];
+      if (!obj.src) {
+        continue;
+      }
+      if (tasks[obj.src] != null) {
+        tasks[obj.src].push(id);
+      } else {
+        tasks[obj.src] = [id];
       }
     }
-  };
-
-  source.watchAll = function() {
-    return source.watch(source.watch.tasks);
+    return source.watch(tasks);
   };
 
   build = function(dest) {
@@ -93,7 +102,7 @@
         var dest, plugs, src;
         if (_.isFunction(task)) {
           build.task[id] = task;
-          gulp.task(id, task);
+          return gulp.task(id, task);
         } else if (_.isArray(task)) {
           src = task[0], dest = task[1], plugs = 3 <= task.length ? __slice.call(task, 2) : [];
           build.task[id] = function() {
@@ -102,10 +111,8 @@
           build.task[id].src = src;
           build.task[id].dest = dest;
           build.task[id].plugs = plugs;
-          gulp.task(id, build.task[id]);
-          source.watch.addTask(id, src);
+          return gulp.task(id, build.task[id]);
         }
-        return build.tasks.add(id);
       })(id, task));
     }
     return _results;
@@ -117,17 +124,18 @@
     return (__indexOf.call(build.tasks.ignore, id) >= 0) || (id === 'default');
   };
 
-  build.tasks.all = [];
-
-  build.tasks.add = function(id) {
-    if (!build.tasks.ignored(id)) {
-      return build.tasks.all.push(id);
+  build.tasks.startAll = function() {
+    var id, tasks;
+    tasks = [];
+    for (id in build.task) {
+      if (!build.tasks.ignored(id)) {
+        tasks.push(id);
+      }
     }
+    return gulp.start(tasks);
   };
 
-  build.tasks.run = function() {
-    return gulp.start(build.tasks.all);
-  };
+  build.source = source;
 
   module.exports = [build, source];
 
