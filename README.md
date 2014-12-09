@@ -5,10 +5,13 @@ build-source
 
 Get rid of all the pipe's, gulp.src's, gulp.dest's etc.. make it more readable and coherent.
 
+
+*I am still testing, looking for bugs. Please let me know if you found one.*
 <br/>
 ___
+**A basic example in Coffeescript**
 
-Given the following extremely basic directory structure to keep it short:
+Given this extremely basic directory structure to keep it short:
 
 ```javascript
 source/
@@ -226,7 +229,7 @@ build.tasks is the main function to call for creating your tasks. It takes an ob
 - you can add tasks as build-source style arrays
 
 ```coffeescript
-#	id		gulp.src		gulp.dest	plug1,	...,			plugN		plug-arguments
+#	id		gulp.src		gulp.dest	plug1,	...,		plugN		plug-arguments
 	jade: [ 'jade/*.jade', 'html',		jade, 	minifyHtml, [concat, 'all.html'] ]
 
 # normally written as:
