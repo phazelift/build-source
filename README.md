@@ -82,7 +82,7 @@ Several plugins were used in the example, below the list that you can paste stra
 file if you want to play with it:
 ```json
 "dependencies": {
-    "build-source": "^0.2.2",
+    "build-source": ">=0.2.2",
     "coffee-script": "^1.8.0",
     "event-stream": "^3.1.7",
     "gulp": "^3.8.10",
