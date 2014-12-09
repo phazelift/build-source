@@ -1,6 +1,6 @@
 {
   "name": "build-source",
-  "version": "0.2.0",
+  "version": "0.2.5",
   "description": "A structural design pattern for working with Gulp",
   "main": "build-source.min.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/phazelift/build-source.js"
+    "url": "https://github.com/phazelift/build-source"
   },
   "keywords": [
     "gulp",
@@ -21,9 +21,9 @@
   "author": "Dennis Raymondo <phazelift@gmail.com> (https://github.com/phazelift/)",
   "license": "GPL-3",
   "bugs": {
-    "url": "https://github.com/phazelift/build-source.js/issues"
+    "url": "https://github.com/phazelift/build-source/issues"
   },
-  "homepage": "https://github.com/phazelift/build-source.js",
+  "homepage": "https://github.com/phazelift/build-source",
   "dependencies": {
     "gulp": "^3.8.10",
     "words.js": "^0.3.82"
