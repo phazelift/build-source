@@ -38,8 +38,7 @@ plug				= do require 'gulp-load-plugins'
 
 build.tasks
 
-# gulp.task	id		gulp.src		gulp.dest
-	lib:		[ 'js/lib/*.js', 'js/lib' ]
+	lib: [ 'js/lib/*.js', 'js/lib' ]
 
 	index: [ 'index.html', '',
 		plug.minifyHtml
@@ -226,13 +225,12 @@ ___
 
 build.tasks is the main function to call for creating your tasks. It takes an object where:
 
-- you can add tasks as build-source style arrays
+- you can add tasks as build-source style arrays, having the following format:
 
+gulp.src	|gulp.dest	|plug1, ..., plugN	|[ plug, arg1, ..., argN ]
+---------|-----------|--------------------|-------------------------
+where the object key represents the gulp.task:
 ```coffeescript
-#	id		gulp.src		gulp.dest	plug1,	...,		plugN		plug-arguments
-	jade: [ 'jade/*.jade', 'html',		jade, 	minifyHtml, [concat, 'all.html'] ]
-
-# normally written as:
 build.tasks
 
 	jade: [ 'jade/*.jade', 'html',
@@ -241,8 +239,8 @@ build.tasks
 		[ concat, 'all.html' ]
 	]
 ```
-- or the default function way, except for that the key remains the id of the gulp.task, so you don't need
-to write that:
+- or the default function way, except for that the key remains the id of the gulp.task, you don't have to
+reapeat that function call n times:
 ```coffeescript
 build.tasks
 
