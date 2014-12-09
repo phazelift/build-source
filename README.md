@@ -57,14 +57,13 @@ build.tasks
 		plug.uglify
 	]
 
-	minifyCoffee: [
-		'coffee/*.coffee', 'js',
+	minifyCoffee: [ 'coffee/*.coffee', 'js',
 		plug.coffee,
 		[ plug.concat, 'scripts.min.js' ],
 		plug.uglify
 	]
 
-	webserver: [ build.root, '',
+	webserver: [ '^build/', '',
 		[ plug.webserver,
 			livereload	: true
 			open			: true
