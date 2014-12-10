@@ -119,7 +119,7 @@ build.tasks.startAll	= ->
 
  	gulp.start tasks
 
-# make source available for older JS
+# make source available for JS
 build.source= source
 
 #

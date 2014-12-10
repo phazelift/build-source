@@ -250,7 +250,7 @@ build.tasks
 		.pipe concat 'all.html'
 		.pipe gulp.dest 'html'
 ```
-If a plug needs to give arguments, you'll have to wrap the plug and argument(s) in an array,
+If a plug needs arguments, you'll have to wrap the plug and argument(s) in an array,
 where possible following arguments can be comma seperated as in a normal function call.
 ___
 
