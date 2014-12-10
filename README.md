@@ -117,6 +117,7 @@ build	:
 		dest		: <string>
 		plugs		: <array>
 	tasks		: <function>
+		all			: <array>
 		ignore		: <array>
 		ignored		: <boolean>
 	 	startAll	: <function>
@@ -254,6 +255,12 @@ If a plug needs arguments, you'll have to wrap the plug and argument(s) in an ar
 where possible following arguments can be comma seperated as in a normal function call.
 ___
 
+**build.tasks.all**
+> `<array> build.tasks.all`
+
+Contains all id's of the tasks added with build.tasks.
+___
+
 **build.tasks.ignore**
 > `<array> build.tasks.ignore`
 
@@ -283,6 +290,12 @@ ___
 change log
 ==========
 
+**0.3.0**
+
+Fixed: missing Strings error
+
+Added: build.tasks.all
+___
 **0.1.0**
 
 Initial commit.

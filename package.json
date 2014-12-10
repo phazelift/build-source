@@ -1,6 +1,6 @@
 {
   "name": "build-source",
-  "version": "0.2.8",
+  "version": "0.3.1",
   "description": "A structural design pattern for working with Gulp",
   "main": "build-source.min.js",
   "scripts": {

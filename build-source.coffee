@@ -108,16 +108,21 @@ build.tasks= ( tasks ) ->
 
 			gulp.task id, build.task[ id ]
 
+		build.tasks.all.push id
+
+
+build.tasks.all		= []
 build.tasks.ignore	= []
 build.tasks.ignored= ( id ) -> ( id in build.tasks.ignore ) or ( id is 'default' )
 
 build.tasks.startAll	= ->
 
 	tasks= []
-	for id of build.task
+	for id in build.tasks.all
  		tasks.push id if not build.tasks.ignored id
 
- 	gulp.start tasks
+	gulp.start tasks
+
 
 # make source available for JS
 build.source= source
