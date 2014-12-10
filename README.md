@@ -29,7 +29,7 @@ build/
 	js/
 		lib/
 ```
-We can write the following code to make it happen:
+we can write the following code to make it happen:
 
 ```coffeescript
 gulp				= require 'gulp'
@@ -65,13 +65,12 @@ build.tasks
 		plug.uglify
 	]
 
-	webserver: [ '^build/', '',
-		[ plug.webserver,
+	webserver: [ '^build/', '', [
+		plug.webserver,
 			livereload	: true
 			open			: true
 			directoryListing	: true
-		]
-	]
+	] ]
 
 	watch: -> source.watchAll()
 
@@ -168,8 +167,8 @@ Uses gulp.watch to set multiple listeners in one call. source.watcher[ path ] ho
 that specific path.
 ___
 
-**source.watch.watchAll**
-> `<function> source.watch.watchAll( )`
+**source.watchAll**
+> `<function> source.watchAll( )`
 
 Runs source.watch for all watchable build.task id's.
 ___
@@ -203,7 +202,7 @@ See the description below for their contents.
 ___
 
 **build.task[ id ].src**
-> `<string> build.task[ id ].src`
+> `<string>/<array> build.task[ id ].src`
 
 Holds the src for id, which can be a single string or an array of strings.
 ___
@@ -227,8 +226,8 @@ build.tasks is the main function to call for creating your tasks. It takes an ob
 
 - you can add tasks as build-source style arrays, having the following format:
 
-gulp.src	|gulp.dest	|plug1, ..., plugN	|[ plug, arg1, ..., argN ]
----------|-----------|--------------------|-------------------------
+gulp.src	|gulp.dest	| plugins...
+---------|-----------|-------------------------
 where the object key represents the gulp.task:
 ```coffeescript
 build.tasks
@@ -251,7 +250,7 @@ build.tasks
 		.pipe concat 'all.html'
 		.pipe gulp.dest 'html'
 ```
-As in the example, if a plug needs to give arguments, you'll have to wrap the plug and argument(s) in an array,
+If a plug needs to give arguments, you'll have to wrap the plug and argument(s) in an array,
 where possible following arguments can be comma seperated as in a normal function call.
 ___
 
