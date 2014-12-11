@@ -29,7 +29,7 @@
     }
   };
 
-  source.root = 'source/';
+  source.root = '';
 
   source.noRoot = '^';
 
@@ -75,14 +75,16 @@
     return function(src, plugins) {
       var args, data, plugin, _i, _len, _ref;
       data = source(src);
-      for (_i = 0, _len = plugins.length; _i < _len; _i++) {
-        plugin = plugins[_i];
-        if (plugin) {
-          if (_.notFunction(plugin)) {
-            _ref = plugin, plugin = _ref[0], args = 2 <= _ref.length ? __slice.call(_ref, 1) : [];
-            data = data.pipe(plugin.apply(this, args));
-          } else {
-            data = data.pipe(plugin());
+      if (plugins != null) {
+        for (_i = 0, _len = plugins.length; _i < _len; _i++) {
+          plugin = plugins[_i];
+          if (plugin) {
+            if (_.notFunction(plugin)) {
+              _ref = plugin, plugin = _ref[0], args = 2 <= _ref.length ? __slice.call(_ref, 1) : [];
+              data = data.pipe(plugin.apply(this, args));
+            } else {
+              data = data.pipe(plugin());
+            }
           }
         }
       }
@@ -90,7 +92,7 @@
     };
   };
 
-  build.root = 'build/';
+  build.root = '';
 
   build.task = {};
 

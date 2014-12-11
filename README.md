@@ -36,6 +36,9 @@ gulp				= require 'gulp'
 plug				= do require 'gulp-load-plugins'
 [ build, source ]	= require 'build-source'
 
+source.root	= 'source/'
+build.root	= 'build/'
+
 build.tasks
 
 	lib: [ 'js/lib/*.js', 'js/lib' ]
@@ -110,7 +113,7 @@ source	: <function>
 	watcher		: <object>
 	watch		: <object>
 
-build	:
+build	: <function>
 	root		: <string>
 	task		: <object>
 		src			: <string>/<array>
@@ -125,70 +128,76 @@ build	:
 ```
 ___
 
+source
+======
+
+
 **source**
 > `<gulp> source( <string>/<array> paths )`
 
 Returns a gulp.src with path(s) mapped relative to source.root.
 ___
-
 **source.root**
 > `<string> source.root`
 
-Holds the source root path. Defaults to 'source/', but can be set to any base path you prefer. You can also
-set to an empty string '' if you don't want no base path at all.
+Holds the source root path. Defaults to '', which means having no effect, but can be set to any base path you
+prefer.
 ___
 **source.noRoot**
 > `<string> source.noRoot`
 
-noRoot can be prepended to a src string to prevent prepending source.root. Only necessary if source.root is
-set (default).
+noRoot can be prepended to a src string to momentary prevent prepending source.root. Only necessary if source.root
+is set (default).
 
 noRoot defaults to '^'. I chose the caret because it is also used in regexp to denote that the following
 characters need to be the start of the string, or the base path in our case. You could set noRoot to another
 (single!) character, although I cannot find one good reason to do that.
 ___
-
 **source.watchable**
 > `<boolean> source.watchable( <string> id )`
 
 Internally this relates to the watchAll method. All id's in build.tasks.ignore are not watchable, as well
 as the 'default' and 'watch' tasks of course.
 ___
-
 **source.watcher**
 > `<object> source.watcher`
 
 Holds all gulp.watch watchers that were set with source.watch.
 ___
-
 **source.watch**
 > `<gulp.watch> source.watch( <object> tasks )`
 
 Uses gulp.watch to set multiple listeners in one call. source.watcher[ path ] holds the gulp.watch listener for
 that specific path.
 ___
-
 **source.watchAll**
 > `<function> source.watchAll( )`
 
 Runs source.watch for all watchable build.task id's.
 ___
 
-
+build
+=====
 
 
 **build**
 > `<function> build( <string> path )`
 
 Returns a build function that writes to the given path ralative to build.root.
+```coffeescript
+toLib= build 'build/js/lib'
+
+build.tasks
+	default: -> toLib 'lib/*.js'
+# copies all .js files from ./js/lib to ./build/js/lib
+```
 ___
 **build.root**
 > `<string> build.root`
 
-Holds the build root path. Defaults to 'build/'.
+Holds the build root path. Defaults to '', which means having no effect, but can be set to any base path you
+prefer.
 ___
-
-
 **build.task[ id ]**
 > `<function> build.task`
 
@@ -201,25 +210,21 @@ task if needed, there are also three properties bound to the function:
 
 See the description below for their contents.
 ___
-
 **build.task[ id ].src**
 > `<string>/<array> build.task[ id ].src`
 
 Holds the src for id, which can be a single string or an array of strings.
 ___
-
 **build.task[ id ].dest**
 > `<string> build.task[ id ].dest`
 
 Holds the dest or the write path for id.
 ___
-
 **build.task[ id ].plugs**
 > `<array> build.task[ id ].plugs`
 
 Holds all the plugs for id in an array, including their possible arguments.
 ___
-
 **build.tasks**
 > `<undefined> build.tasks( <object> tasks )`
 
@@ -254,32 +259,27 @@ build.tasks
 If a plug needs arguments, you'll have to wrap the plug and argument(s) in an array,
 where possible following arguments can be comma seperated as in a normal function call.
 ___
-
 **build.tasks.all**
 > `<array> build.tasks.all`
 
 Contains all id's of the tasks added with build.tasks.
 ___
-
 **build.tasks.ignore**
 > `<array> build.tasks.ignore`
 
 An empty array where you can add id's to, to prevent them from being fired by build.tasks.startAll.
 You don't have to add 'default' as build-source will never call the 'default' task.
 ___
-
 **build.tasks.ignored**
 > `<boolean> build.tasks.ignored( <string> id )`
 
 Used internally. You can call to find out if an id is in the ignore list or it is 'default'.
 ___
-
 **build.tasks.startAll**
 > `<undefined> build.tasks.startAll()`
 
 Starts all gulp tasks created with build.tasks that are not ignored.
 ___
-
 **build.source**
 > `<function> build.source( <string>/<array> paths )`
 
@@ -290,6 +290,13 @@ ___
 change log
 ==========
 
+**0.3.1**
+
+Fixed: Custom build function now doesn't crash anymore when no plugins are given.
+
+I removed the presets for source.root and build.root. Now you can run a build without first creating a ./source dir
+or setting source.root to some other path. They can of course still be set manually if you liked the idea.
+___
 **0.3.0**
 
 Fixed: missing Strings error

@@ -36,9 +36,9 @@ mapRoot= ( paths, root ) ->
 #----------------------------------- source ------------------------------------------
 #
 
-source= ( src ) -> gulp.src mapRoot(src, source.root) if src
+source= ( src ) -> gulp.src mapRoot( src, source.root ) if src
 
-source.root		= 'source/'
+source.root		= ''
 source.noRoot	= '^'
 
 source.watchable= ( id ) -> not (( build.tasks.ignored id ) or ( id is 'watch' ))
@@ -73,7 +73,7 @@ build= ( dest ) ->
 
 		data= source src
 
-		for plugin in plugins then if plugin
+		if plugins? then for plugin in plugins then if plugin
 
 			# allow for arguments in array form
 			if _.notFunction plugin
@@ -85,7 +85,7 @@ build= ( dest ) ->
 		data.pipe gulp.dest build.root+ dest
 
 
-build.root	= 'build/'
+build.root	= ''
 build.task	= {}
 
 build.tasks= ( tasks ) ->
