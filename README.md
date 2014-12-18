@@ -259,17 +259,17 @@ When using the array format:
 	no output. As a result, you cannot write to a directory called !
 - if a plug needs arguments, you'll have to wrap the plug and argument(s) in an array, where possible following
 	arguments can be comma seperated as in a normal function call.
+
 ```javascript
 build.tasks
 
 	# ^ means: ignore source.root and use build/ as source path for the webserver
 	# ! means: no output to file
-	webserver: [ '^build/', '!',
-		[ plug.webserver,
+	webserver: [ '^build/', '!', [
+		plug.webserver,
 			livereload	: true
 			open		: true
-		]
-	]
+	] ]
 
 ```
 ___
