@@ -18,8 +18,8 @@
 "use strict"
 
 gulp		= require 'gulp'
-_			= require 'words.js'
-Strings	= _.Strings
+_			= Words= require 'words.js'
+Strings	= Words.Strings
 
 mapRoot= ( paths, root ) ->
 
@@ -82,7 +82,7 @@ build= ( dest ) ->
 			else
 				data= data.pipe plugin()
 
-		data.pipe gulp.dest build.root+ dest
+		data.pipe gulp.dest( build.root+ dest ) if dest isnt '!'
 
 
 build.root	= ''

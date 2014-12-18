@@ -5,8 +5,6 @@ build-source
 
 Get rid of all the pipe's, gulp.src's, gulp.dest's etc.. make it more readable and coherent.
 
-
-*I am still testing, looking for bugs. Please let me know if you found one.*
 <br/>
 ___
 **A basic example in Coffeescript**
@@ -68,7 +66,7 @@ build.tasks
 		plug.uglify
 	]
 
-	webserver: [ '^build/', '', [
+	webserver: [ '^build/', '!', [
 		plug.webserver,
 			livereload	: true
 			open			: true
@@ -244,8 +242,7 @@ build.tasks
 		[ concat, 'all.html' ]
 	]
 ```
-- or the default function way, except for that the key remains the id of the gulp.task, you don't have to
-reapeat that function call n times:
+- or the default function way, except for that the key remains the id of the gulp.task.
 ```coffeescript
 build.tasks
 
@@ -256,8 +253,25 @@ build.tasks
 		.pipe concat 'all.html'
 		.pipe gulp.dest 'html'
 ```
-If a plug needs arguments, you'll have to wrap the plug and argument(s) in an array,
-where possible following arguments can be comma seperated as in a normal function call.
+When using the array format:
+- you can use the caret ^ for inhibiting the build.root or source.root
+- you can use the exclamation mark ! in the gulp.dest field to prevent outputting to gulp.dest, it simply means:
+	no output. As a result, you cannot write to a directory called !
+- if a plug needs arguments, you'll have to wrap the plug and argument(s) in an array, where possible following
+	arguments can be comma seperated as in a normal function call.
+```javascript
+build.tasks
+
+	# ^ means: ignore source.root and use build/ as source path for the webserver
+	# ! means: no output to file
+	webserver: [ '^build/', '!',
+		[ plug.webserver,
+			livereload	: true
+			open		: true
+		]
+	]
+
+```
 ___
 **build.tasks.all**
 > `<array> build.tasks.all`
@@ -289,7 +303,12 @@ ___
 
 change log
 ==========
+**0.3.5**
 
+Added the option for putting a '!' in the "src.dest" field. Now you can use processing without output
+to a file, as needed for certain plugs like gulp-webserver for example.
+
+___
 **0.3.1**
 
 Fixed: Custom build function now doesn't crash anymore when no plugins are given.

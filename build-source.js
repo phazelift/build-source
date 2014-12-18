@@ -1,14 +1,14 @@
 (function() {
   "use strict";
-  var Strings, build, gulp, mapRoot, source, _,
+  var Strings, Words, build, gulp, mapRoot, source, _,
     __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   gulp = require('gulp');
 
-  _ = require('words.js');
+  _ = Words = require('words.js');
 
-  Strings = _.Strings;
+  Strings = Words.Strings;
 
   mapRoot = function(paths, root) {
     if ('' !== _.forceString(root)) {
@@ -88,7 +88,9 @@
           }
         }
       }
-      return data.pipe(gulp.dest(build.root + dest));
+      if (dest !== '!') {
+        return data.pipe(gulp.dest(build.root + dest));
+      }
     };
   };
 
