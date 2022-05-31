@@ -1,15 +1,15 @@
 build-source
 ============
-<br/>
-***A structural design pattern for working with Gulp.***
+
+# DEPRECATED AND ABANDONED
+
+A structural design pattern for working with Gulp.
 
 Get rid of all the pipe's, gulp.src's, gulp.dest's etc.. make it more readable and coherent.
 
-<br/>
 ___
-**A basic example in Coffeescript**
 
-Given this extremely basic directory structure to keep it short:
+Given A basic directory structure
 
 ```javascript
 source/
@@ -27,7 +27,7 @@ build/
 	js/
 		lib/
 ```
-we can write the following code to make it happen:
+We can write the following code to make it happen
 
 ```coffeescript
 gulp				= require 'gulp'
@@ -77,26 +77,7 @@ build.tasks
 
 	default: -> build.tasks.startAll()
 ```
-Several plugins were used in the example, below the list that you can paste straight into your package.json
-file if you want to play with it:
-```json
-"dependencies": {
-    "build-source": "latest",
-    "coffee-script": "^1.8.0",
-    "event-stream": "^3.1.7",
-    "gulp": "^3.8.10",
-    "gulp-autoprefixer": "^2.0.0",
-    "gulp-coffee": "^2.2.0",
-    "gulp-concat": "^2.4.2",
-    "gulp-cssmin": "^0.1.6",
-    "gulp-jade": "^0.10.0",
-    "gulp-load-plugins": "^0.7.1",
-    "gulp-minify-html": "^0.1.7",
-    "gulp-ruby-sass": "^0.7.1",
-    "gulp-uglify": "^1.0.1",
-    "gulp-webserver": "^0.8.7"
-}
-```
+
 ___
 
 API
